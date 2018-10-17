@@ -33,9 +33,9 @@ public class RobocodeRunner {
 		// compile our created robot and store it to robots/samples
 		File source = new File(src);
 		File dest = new File(dst);
-		Files.copy(source.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
+		//Files.copy(source.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
 		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-		compiler.run(null, System.out, System.out, dst);
+		//compiler.run(null, System.out, System.out, dst);
 		// remove all whitespaces
 		seznamProtivniku = seznamProtivniku.replaceAll("\\s", "");
 		// create list of tanks to fight
