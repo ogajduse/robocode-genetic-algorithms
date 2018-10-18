@@ -22,7 +22,7 @@ public class Population {
     }
 
     public void evolve(int iters){
-        //Koment Ahoj
+        //Dalsi Koment Ahoj
     }
 
     public void createBestTank(){
