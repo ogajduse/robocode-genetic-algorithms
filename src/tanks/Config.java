@@ -3,14 +3,14 @@ package tanks;
 public class Config {
 
 
-    private int popSize ;
-    private int iter ;
-    private double percBest;
-    private double percCros;
-    private double percMuta;
-    private double percNew;
-    public static int numOfGenes;
-    public static int numOfCommands;
+    private static int popSize  = 2;
+    private static int iter  = 10;
+    private static double percBest = 0.2;
+    private static double percCros = 0.3;
+    private static double percMuta = 0.3;
+    private static double percNew = 0.2;
+    public static int numOfGenes = 5;
+    public static int numOfCommands = 5;
 
     public void Config(int pop, int iter, double percBest, double percCros, double percMuta, double percNew, int numOfGenes, int numOfCommands){
         this.popSize = pop;
@@ -30,34 +30,34 @@ public class Config {
         }
     }
 
-    public int getIter() {
+    public static int getIter() {
         return iter;
     }
 
-    public double getPercBest() {
+    public static double getPercBest() {
         return percBest;
     }
 
-    public double getPercCros() {
+    public static double getPercCros() {
         return percCros;
     }
 
-    public double getPercMuta() {
+    public static double getPercMuta() {
         return percMuta;
     }
 
-    public double getPercNew() {
+    public static double getPercNew() {
         return percNew;
     }
 
-    public int getNumOfGenes() {
+    public static int getNumOfGenes() {
         return numOfGenes;
     }
 
-    public  int getNumOfCommands() {
+    public static int getNumOfCommands() {
         return numOfCommands;
     }
-    public int getPopSize() {
+    public static int getPopSize() {
         return popSize;
     }
 }

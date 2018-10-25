@@ -19,10 +19,22 @@ public class RobocodeRunner {
 
 	public static void main(String[] args) throws IOException {
 
-		String nazevTridyMehoRobota = "MujRobot";
-		String seznamProtivniku = "Crazy, Corners, Fire";
+		Config conf = new Config();
 
-		runRobocode(nazevTridyMehoRobota, seznamProtivniku);
+		Population pop = new Population();
+
+//		pop.showChromosomes();
+//		pop.crossover(pop.getChromosome(0), pop.getChromosome(1));
+//		pop.showChromosomes();
+
+		pop.showChromosomes();
+		pop.mutate(pop.getChromosome(0));
+		pop.showChromosomes();
+
+		//String nazevTridyMehoRobota = "MujRobot";
+		//String seznamProtivniku = "Crazy, Corners, Fire";
+
+		//runRobocode(nazevTridyMehoRobota, seznamProtivniku);
 	}
 
 	public static void runRobocode(String mujRobot, String seznamProtivniku) throws IOException {
