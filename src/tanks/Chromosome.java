@@ -4,17 +4,24 @@ import java.util.Vector;
 
 public class Chromosome {
     private Vector<Gene> genes;
-    private int fittnes;
+    private double fitness;
 
 
     public Chromosome(){
         genes = new Vector<Gene>();
         init();
-
     }
 
-    public Gene getGenes(int index) {
+    public Gene getGene(int index) {
         return genes.get(index);
+    }
+
+    public double getFitness() {
+        return fitness;
+    }
+
+    public void setFitness(double fitness) {
+        this.fitness = fitness;
     }
 
     public double calcFit(){
@@ -34,8 +41,6 @@ public class Chromosome {
             genes.get(i).ShowGenes();
         }
     }
-
-
 
     public void init(){
         for (int i=0 ; i < Config.numOfGenes; i++) {

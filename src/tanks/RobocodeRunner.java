@@ -22,14 +22,14 @@ public class RobocodeRunner {
 		Config conf = new Config();
 
 		Population pop = new Population();
+		pop.evolve(Config.getIter());
 
 //		pop.showChromosomes();
-//		pop.crossover(pop.getChromosome(0), pop.getChromosome(1));
+//		pop.crossover(pop.getRandomChromosome(), pop.getRandomChromosome());
+//        pop.showChromosomes();
+//		pop.mutate(pop.getRandomChromosome());
 //		pop.showChromosomes();
 
-		pop.showChromosomes();
-		pop.mutate(pop.getChromosome(0));
-		pop.showChromosomes();
 
 		//String nazevTridyMehoRobota = "MujRobot";
 		//String seznamProtivniku = "Crazy, Corners, Fire";
