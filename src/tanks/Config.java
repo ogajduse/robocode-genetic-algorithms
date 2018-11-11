@@ -3,7 +3,7 @@ package tanks;
 public class Config {
 
 
-    private static int popSize  = 2;
+    private static int popSize  = 100;
     private static int iter  = 10;
     private static double percBest = 0.2;
     private static double percCros = 0.3;

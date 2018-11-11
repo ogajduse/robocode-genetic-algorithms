@@ -4,8 +4,8 @@ import java.util.Vector;
 import java.util.Random;
 
 public class Gene {
-    public int type;
-    public double value;
+    public int type; /* typ prikazu, eg. strilej*/
+    public double value; /* hodnota, eg. 3 */
 
     public Gene(){
         Random rnd = new Random();
