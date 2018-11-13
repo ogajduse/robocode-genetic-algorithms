@@ -4,7 +4,7 @@ public class Config {
 
 
     private static int popSize  = 100;
-    private static int iter  = 10;
+    private static int iter  = 1000;
     private static double percBest = 0.2;
     private static double percCros = 0.3;
     private static double percMuta = 0.3;
