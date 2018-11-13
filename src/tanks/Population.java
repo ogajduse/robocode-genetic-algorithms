@@ -1,15 +1,17 @@
 package tanks;
 
+import java.util.Iterator;
+import java.util.TreeSet;
 import java.util.Vector;
 import java.util.Random;
 
 
 public class Population {
-    private Vector<Chromosome> chromosomes;
+    private TreeSet<Chromosome> chromosomes;
 
 
     public Population() {
-        chromosomes = new Vector<Chromosome>();
+        chromosomes = new TreeSet<Chromosome>();
         init();
     }
 
@@ -22,31 +24,38 @@ public class Population {
     }
 
     public void showChromosomes() {
-        for (int i = 0; i < chromosomes.size(); i++) {
-            chromosomes.get(i).showGenesInChromosome();
+        for (Chromosome ch:chromosomes) {
+            ch.showGenesInChromosome();
             System.out.println();
         }
     }
 
     public void evolve(int iters) {
         for (int i = 0; i < iters; i++) {
-            Vector<Chromosome> newChromosomes = new Vector<>();
-            for (int j = 0; j < Config.getPercBest()*Config.getPopSize(); j++) {
-                newChromosomes.add(chromosomes.remove(0));
+            Iterator<Chromosome> iter = chromosomes.iterator();
+            System.out.println("Generation: " + i + ". Fitness of the first chromosome: " + iter.next().getFitness());
+            System.out.println("Generation: " + i + ". Fitness of the second chromosome: " + iter.next().getFitness());
+            if (i > 2 && chromosomes.first().getFitness() == 0.0){
+                break;
             }
-            for (int j = 0; j < (Config.getPercCros()/2)*Config.getPopSize(); j++) {
-                Chromosome ch1 = chromosomes.remove(0);
-                Chromosome ch2 = chromosomes.remove(0);
+
+            TreeSet<Chromosome> newChromosomes = new TreeSet<>();
+            for (int j = 0; j < Config.getPercBest() * Config.getPopSize(); j++) {
+                newChromosomes.add(chromosomes.pollFirst());
+            }
+            for (int j = 0; j < (Config.getPercCros() / 2) * Config.getPopSize(); j++) {
+                Chromosome ch1 = chromosomes.pollFirst();
+                Chromosome ch2 = chromosomes.pollFirst();
                 crossover(ch1, ch2);
                 newChromosomes.add(ch1);
                 newChromosomes.add(ch2);
             }
-            for (int j = 0; j < Config.getPercMuta()*Config.getPopSize(); j++) {
-                Chromosome ch1 = chromosomes.remove(0);
+            for (int j = 0; j < Config.getPercMuta() * Config.getPopSize(); j++) {
+                Chromosome ch1 = chromosomes.pollFirst();
                 mutate(ch1);
                 newChromosomes.add(ch1);
             }
-            for (int j = 0; j < Config.getPercNew()*Config.getPopSize(); j++) {
+            for (int j = 0; j < Config.getPercNew() * Config.getPopSize(); j++) {
                 newChromosomes.add(new Chromosome());
             }
             chromosomes = newChromosomes;
