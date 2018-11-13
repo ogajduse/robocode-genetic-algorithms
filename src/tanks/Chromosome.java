@@ -2,7 +2,7 @@ package tanks;
 
 import java.util.Vector;
 
-public class Chromosome {
+public class Chromosome implements Comparable<Chromosome> {
     private Vector<Gene> genes;
     private double fitness;
 
@@ -48,5 +48,12 @@ public class Chromosome {
         }
     }
 
-
+    @Override
+    public int compareTo(Chromosome chromosome) {
+        if (getFitness() <= chromosome.getFitness()) {
+            return -1;
+        } else {
+            return 1;
+        }
+    }
 }
