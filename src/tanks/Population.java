@@ -67,15 +67,6 @@ public class Population {
 
     }
 
-    public Chromosome getChromosome(int index){
-        return chromosomes.get(index);
-    }
-
-    public Chromosome getRandomChromosome() {
-        Random rnd = new Random();
-        return chromosomes.get(rnd.nextInt(chromosomes.size()));
-    }
-
     public void mutate(Chromosome chrom) {
         Random rnd = new Random();
         for (int i = 0; i < 0.1 * Config.getNumOfGenes(); i++) { /* TODO: proc nasobime 0.1* ? */
