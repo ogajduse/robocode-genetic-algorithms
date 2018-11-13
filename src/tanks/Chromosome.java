@@ -29,6 +29,7 @@ public class Chromosome implements Comparable<Chromosome> {
         for (int i = 0; i < genes.size(); i++) {
             fitness += genes.get(i).type * genes.get(i).value;
         }
+        this.fitness = fitness;
         return fitness;
     }
 
