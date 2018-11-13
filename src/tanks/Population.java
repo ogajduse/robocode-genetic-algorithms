@@ -58,7 +58,14 @@ public class Population {
             for (int j = 0; j < Config.getPercNew() * Config.getPopSize(); j++) {
                 newChromosomes.add(new Chromosome());
             }
-            chromosomes = newChromosomes;
+            // calc fit for all the new chromosomes
+            for (Chromosome chromosome : newChromosomes) {
+                chromosome.calcFit();
+            }
+            chromosomes = new TreeSet<>();
+            for (Chromosome chromosome : newChromosomes){
+                chromosomes.add(chromosome);
+            }
         }
 
     }
