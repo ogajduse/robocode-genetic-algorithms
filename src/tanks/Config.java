@@ -21,7 +21,7 @@ public class Config {
         this.iter = iter;
         this.numOfGenes = numOfGenes;
 
-        if(percBest + percCros + percMuta + percNew + percRun + percOnHit + percOnScanned == 1) {
+        if(percBest + percCros + percMuta + percNew + percRun + percOnHit + percOnScanned == 2) {
             this.percBest = percBest;
             this.percCros = percCros;
             this.percMuta = percMuta;
