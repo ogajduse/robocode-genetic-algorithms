@@ -9,7 +9,7 @@ public class Gene {
 
     public Gene(){
         Random rnd = new Random();
-        this.type=rnd.nextInt(Config.numOfCommands+1);
+        this.type=rnd.nextInt(Config.numOfGenes + 1);
         this.value = rnd.nextDouble();
     }
 

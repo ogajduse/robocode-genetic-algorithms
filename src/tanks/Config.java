@@ -10,13 +10,12 @@ public class Config {
     private static double percMuta = 0.3;
     private static double percNew = 0.2;
     public static int numOfGenes = 8;
-    public static int numOfCommands = 8;
     public static double percRun = 0.2;
     public static double percOnHit = 0.4;
     public static double percOnScanned = 0.4;
 
 
-    public void Config(int pop, int iter, double percBest, double percCros, double percMuta, double percNew, int numOfGenes, int numOfCommands, double percRun, double percOnHit, double percOnScanned){
+    public void Config(int pop, int iter, double percBest, double percCros, double percMuta, double percNew, int numOfGenes, double percRun, double percOnHit, double percOnScanned){
         this.popSize = pop;
         this.iter = iter;
         this.numOfGenes = numOfGenes;
@@ -70,15 +69,10 @@ public class Config {
     public static double getPercOnScanned(){
         return percOnScanned;
     }
-
     public static int getNumOfGenes() {
         return numOfGenes;
     }
 
-    public static int getNumOfCommands() {
-
-        return numOfCommands;
-    }
     public static int getPopSize() {
 
         return popSize;
