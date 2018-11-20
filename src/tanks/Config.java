@@ -9,8 +9,8 @@ public class Config {
     private static double percCros = 0.3;
     private static double percMuta = 0.3;
     private static double percNew = 0.2;
-    public static int numOfGenes = 9;
-    public static int numOfCommands = 9;
+    public static int numOfGenes = 8;
+    public static int numOfCommands = 8;
     public static double percRun = 0.2;
     public static double percOnHit = 0.4;
     public static double percOnScanned = 0.4;
