@@ -11,6 +11,9 @@ public class Chromosome implements Comparable<Chromosome> {
         genes = new Vector<Gene>();
         init();
     }
+    public Vector<Gene> getGenes(){
+        return genes;
+    }
 
     public Gene getGene(int index) {
         return genes.get(index);
