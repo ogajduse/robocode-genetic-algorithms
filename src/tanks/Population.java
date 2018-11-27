@@ -50,7 +50,7 @@ public class Population {
 
     public void evolve(int iters) throws IOException {
 
-
+        Vector<double> bestResults = new Vector<double>();
 
         for (int i = 0; i < iters; i++) {
 
@@ -85,9 +85,11 @@ public class Population {
                 chromosomes.add(chromosome);
             }
 
+
             Iterator<Chromosome> iter2 = chromosomes.iterator();
-            System.out.println("Generation: " + i + ". Fitness of the first chromosome: " + iter2.next().getFitness());
-            System.out.println("Generation: " + i + ". Fitness of the second chromosome: " + iter2.next().getFitness());
+            bestResults.add(iter2.next().getFitness());
+
+
         }
 
     }
@@ -176,7 +178,7 @@ public class Population {
             System.out.println(result.getTeamLeaderName() + " - " + result.getScore());
         }
 
-        double fitness = battleListener.getResults()[0].getScore();
+        double fitness = battleListener.getResults()[1].getScore();
 
         // Cleanup our RobocodeEngine
         engine.close();
