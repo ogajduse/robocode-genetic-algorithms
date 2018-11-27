@@ -39,8 +39,6 @@ public class Population {
         for (int i = 0; i < Config.getPopSize(); i++) {
             chromosomes.add(new Chromosome());
         }
-
-
     }
 
     public void showChromosomes() {
@@ -70,13 +68,10 @@ public class Population {
                 Chromosome ch1 = chromosomes.pollFirst();
                 Chromosome ch2 = chromosomes.pollFirst();
                 crossover(ch1, ch2);
+                mutate(ch1);
+                mutate(ch2);
                 newChromosomes.add(ch1);
                 newChromosomes.add(ch2);
-            }
-            for (int j = 0; j < Config.getPercMuta() * Config.getPopSize(); j++) {
-                Chromosome ch1 = chromosomes.pollFirst();
-                mutate(ch1);
-                newChromosomes.add(ch1);
             }
             for (int j = 0; j < Config.getPercNew() * Config.getPopSize(); j++) {
                 newChromosomes.add(new Chromosome());
