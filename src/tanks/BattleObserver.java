@@ -23,6 +23,8 @@ public class BattleObserver extends BattleAdaptor {
 		}
 	}
 
+	
+	
 	public void onBattleCompleted(BattleCompletedEvent e) {
 		System.out.println("-- Battle has completed --");
 		this.results = e.getSortedResults();
@@ -30,9 +32,13 @@ public class BattleObserver extends BattleAdaptor {
 		System.out.println("\n-- Battle results --");
 		for (BattleResults result : e.getSortedResults()) {
 			System.out.println("  " + result.getTeamLeaderName() + ": " + result.getScore());
+			
+			
+			
+			
 		}
 	}
-
+	
 	public void onBattleMessage(BattleMessageEvent e) {
 		System.out.println("Msg> " + e.getMessage());
 	}
@@ -40,7 +46,7 @@ public class BattleObserver extends BattleAdaptor {
 	public void onBattleError(BattleErrorEvent e) {
 		System.out.println("Err> " + e.getError());
 	}
-
+	
 	public BattleResults[] getResults() {
 		return results;
 	}

@@ -10,7 +10,9 @@ import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
 import java.nio.file.Files;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.TreeSet;
 import java.util.Random;
 import java.nio.file.StandardCopyOption;
@@ -18,6 +20,7 @@ import java.io.UnsupportedEncodingException;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.Vector;
+//import GraphPanel;
 
 import java.io.File;
 
@@ -30,10 +33,15 @@ public class Population {
     String myRobot = "TankCreator";
     String enemyList = "Crazy";
 
+    List<Double> fitnessList = new ArrayList<Double>();
+    
+    static int counter = 0;
+
     public Population() {
         chromosomes = new TreeSet<Chromosome>();
         init();
     }
+    
 
     private void init() {
         for (int i = 0; i < Config.getPopSize(); i++) {
@@ -176,18 +184,36 @@ public class Population {
 
         for (BattleResults result : battleListener.getResults()) {
             System.out.println(result.getTeamLeaderName() + " - " + result.getScore());
+            
         }
 
         double fitness = battleListener.getResults()[1].getScore();
+       // System.out.println("Fitness je: " +fitness);
 
         // Cleanup our RobocodeEngine
         engine.close();
 
-        // Make sure that the Java VM is shut down properly
-        //System.exit(0);
+        // Make sure that the Java VM is shut down properly    
+        counter++;
+        fitnessList.add(fitness);
+        if (counter % 100 == 0) {
+        	counter = 0;
+        	//call class graphpanel and import fitness list there
+        	//GraphPanel myGraph = new GraphPanel(fitnessList2);
+        	//myGraph.zobrazGraf(fitnessList2);
+        	//static Romane, no hruza
+        	GraphPanel.zobrazGraf(fitnessList);
+        	//fitnessList.clear();
+        	
+        }
 
         return fitness;
+        
+       
     }
+    
+    
+    
 
     public void createTank(Vector<Gene> genes, File dst) {
         Vector<Gene> genesRun;
