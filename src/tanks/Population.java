@@ -50,7 +50,7 @@ public class Population {
 
     public void evolve(int iters) throws IOException {
 
-        Vector<double> bestResults = new Vector<double>();
+        Vector<Double> bestResults = new Vector<Double>();
 
         for (int i = 0; i < iters; i++) {
 
@@ -250,10 +250,10 @@ public class Population {
     private void runSwitch(int type, double value, PrintWriter writer) {
         switch (type) {
             case 0:
-                writer.println("ahead(" + -400 * value + ");");
+                writer.println("ahead(" + -40 * value + ");");
                 break;
             case 1:
-                writer.println("ahead(" + 400 * value + ");");
+                writer.println("ahead(" + 40 * value + ");");
                 break;
             case 2:
                 writer.println("turnRight(" + 360 * value + ");");
