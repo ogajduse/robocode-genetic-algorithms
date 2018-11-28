@@ -178,8 +178,14 @@ public class Population {
             System.out.println(result.getTeamLeaderName() + " - " + result.getScore());
         }
 
-        double fitness = battleListener.getResults()[1].getScore();
+        System.out.println(battleListener.getResults()[1].getTeamLeaderName());
 
+        double fitness;
+        if(battleListener.getResults()[0].getTeamLeaderName().equals("sample.TankDst")){
+            fitness = battleListener.getResults()[0].getScore();
+        }else{
+            fitness = battleListener.getResults()[1].getScore();
+        }
         // Cleanup our RobocodeEngine
         engine.close();
 
