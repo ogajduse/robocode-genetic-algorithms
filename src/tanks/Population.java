@@ -50,7 +50,7 @@ public class Population {
 
     public void evolve(int iters) throws IOException {
 
-        Vector<double> bestResults = new Vector<double>();
+        Vector<Double> bestResults = new Vector<Double>();
 
         for (int i = 0; i < iters; i++) {
 
