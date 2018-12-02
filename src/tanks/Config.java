@@ -2,9 +2,9 @@ package tanks;
 
 public class Config {
 
-    private static int iter  = 10;
+    private static int iter  = 100;
 
-    private static int popSize  = 10;
+    private static int popSize  = 100;
 
     public static int numberOfCommands = 8;
 
@@ -12,7 +12,7 @@ public class Config {
     private static double percCros = 0.7;
     private static double percNew = 0.2;
 
-    public static int numOfGenes = 100;
+    public static int numOfGenes = 10;
     public static double percRun = 0.4;
     public static double percOnHit = 0.3;
     public static double percOnScanned = 0.3;
