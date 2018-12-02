@@ -1,5 +1,7 @@
 package tanks;
 
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 import robocode.BattleResults;
 import robocode.control.BattleSpecification;
 import robocode.control.BattlefieldSpecification;
@@ -8,18 +10,11 @@ import robocode.control.RobotSpecification;
 
 import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
-import java.nio.file.Files;
-import java.io.IOException;
+import java.io.*;
 import java.util.Iterator;
-import java.util.TreeSet;
 import java.util.Random;
-import java.nio.file.StandardCopyOption;
-import java.io.UnsupportedEncodingException;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
+import java.util.TreeSet;
 import java.util.Vector;
-
-import java.io.File;
 
 
 
@@ -50,7 +45,12 @@ public class Population {
 
     public void evolve(int iters) throws IOException {
 
+<<<<<<< HEAD
         Vector<Double> bestResults = new Vector<Double>();
+=======
+        final XYSeries bestFirst = new XYSeries( "First" );
+        final XYSeries bestSecond = new XYSeries( "Second" );
+>>>>>>> feature/results-graph
 
         for (int i = 0; i < iters; i++) {
 
@@ -87,10 +87,18 @@ public class Population {
 
 
             Iterator<Chromosome> iter2 = chromosomes.iterator();
-            bestResults.add(iter2.next().getFitness());
+            bestFirst.add(i,iter2.next().getFitness());
+            bestSecond.add(i,iter2.next().getFitness());
+
+
 
 
         }
+        final XYSeriesCollection dataset = new XYSeriesCollection( );
+        dataset.addSeries( bestFirst );
+        dataset.addSeries( bestSecond );
+
+        Graph graph = new Graph("Results", "First and second best in iteration", dataset);
 
     }
 
