@@ -1,11 +1,6 @@
 package tanks;
 
 public class Config {
-
-    private static int iter  = 1000;
-
-    private static int popSize  = 10;
-
     public static int numberOfCommands = 8;
     public static int numOfGenes = 10;
     public static double percRun = 0.4;

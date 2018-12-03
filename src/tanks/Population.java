@@ -50,8 +50,6 @@ public class Population {
         final XYSeries bestFirst = new XYSeries("First");
         final XYSeries bestSecond = new XYSeries("Second");
 
-        Vector<Double> bestResults = new Vector<Double>();
-
         DataFactory df = new DataFactory();
 
         for (int i = 0; i < iters; i++) {
