@@ -99,7 +99,7 @@ public class Population {
         dataset.addSeries(bestFirst);
         dataset.addSeries(bestSecond);
 
-        Graph graph = new Graph("Results", "First and second best in iteration", dataset);
+        Graph graph = new Graph("Results", "First and second best in iteration", dataset, startTime);
     }
 
     public void mutate(Chromosome chrom) {
