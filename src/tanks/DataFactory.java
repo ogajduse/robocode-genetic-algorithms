@@ -7,6 +7,7 @@ import com.esotericsoftware.yamlbeans.YamlWriter;
 import java.io.*;
 import java.time.Instant;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.TreeSet;
 
 public class DataFactory {
@@ -31,7 +32,29 @@ public class DataFactory {
 
         ensureDirectoryExists(dstDir);
         writeObject(chromosomes, fileDst);
+    }
 
+    public void writeConfig() {
+        String dstDir = this.fileDir + this.unixTimestamp.toString();
+        String fileDst = dstDir + "/" + "config.yaml";
+
+        HashMap<String, Number> config = new HashMap();
+
+        config.put("percRun", Config.getPercRun());
+        config.put("percOnHit", Config.getPercOnHit());
+        config.put("percOnScanned", Config.getPercOnScanned());
+        config.put("percBest", Config.getPercBest());
+        config.put("percCros", Config.getPercCros());
+        config.put("percNew", Config.getPercNew());
+
+        config.put("numberOfCommands", Config.getNumberOfCommands());
+        config.put("numOfGenes", Config.getNumOfGenes());
+        config.put("popSize", Config.getPopSize());
+        config.put("iter", Config.getIter());
+
+        ensureDirectoryExists(dstDir);
+        writeObject(config, fileDst);
+    }
 
     private boolean ensureDirectoryExists(String dstDir) {
         return new File(dstDir).mkdirs();
