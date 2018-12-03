@@ -20,6 +20,10 @@ public class Config {
         return percBest;
     }
 
+    public static int getNumberOfCommands() {
+        return numberOfCommands;
+    }
+
     public static double getPercCros() {
         return percCros;
     }
@@ -45,7 +49,6 @@ public class Config {
     }
 
     public static int getPopSize() {
-
         return popSize;
     }
 }
