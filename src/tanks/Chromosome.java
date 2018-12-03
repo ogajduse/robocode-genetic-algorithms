@@ -7,11 +7,12 @@ public class Chromosome implements Comparable<Chromosome> {
     private double fitness;
 
 
-    public Chromosome(){
+    public Chromosome() {
         genes = new Vector<Gene>();
         init();
     }
-    public Vector<Gene> getGenes(){
+
+    public Vector<Gene> getGenes() {
         return genes;
     }
 
@@ -27,14 +28,14 @@ public class Chromosome implements Comparable<Chromosome> {
         this.fitness = fitness;
     }
 
-    public void showGenesInChromosome(){
-        for (int i = 0; i < genes.size() ; i++) {
+    public void showGenesInChromosome() {
+        for (int i = 0; i < genes.size(); i++) {
             genes.get(i).ShowGenes();
         }
     }
 
-    public void init(){
-        for (int i=0 ; i < Config.numOfGenes; i++) {
+    public void init() {
+        for (int i = 0; i < Config.numOfGenes; i++) {
             this.genes.add(new Gene());
         }
     }

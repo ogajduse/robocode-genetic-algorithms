@@ -3,17 +3,15 @@ package tanks;
 public class Config {
 
     public static int numberOfCommands = 8;
-    private static int popSize  = 5;
-    private static int iter  = 20;
-    private static double percBest = 0.1;
-    private static double percCros = 0.6;
-    private static double percNew = 0.2;
-
     public static int numOfGenes = 10;
     public static double percRun = 0.4;
     public static double percOnHit = 0.3;
     public static double percOnScanned = 0.3;
-
+    private static int popSize = 5;
+    private static int iter = 20;
+    private static double percBest = 0.1;
+    private static double percCros = 0.6;
+    private static double percNew = 0.2;
 
     public static int getIter() {
         return iter;

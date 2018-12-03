@@ -17,16 +17,13 @@ import java.util.TreeSet;
 import java.util.Vector;
 
 
-
-
 public class Population {
+    private String myRobot = "TankCreator";
+    private String enemyList = "Crazy";
     private TreeSet<Chromosome> chromosomes;
 
-    String myRobot = "TankCreator";
-    String enemyList = "Crazy";
-
     public Population() {
-        chromosomes = new TreeSet<Chromosome>();
+        chromosomes = new TreeSet<>();
         init();
     }
 
@@ -37,32 +34,32 @@ public class Population {
     }
 
     public void showChromosomes() {
-        for (Chromosome ch:chromosomes) {
+        for (Chromosome ch : chromosomes) {
             ch.showGenesInChromosome();
             System.out.println();
         }
     }
 
     public void evolve(int iters) throws IOException {
-        Vector<Double> bestResults = new Vector<Double>();
-        final XYSeries bestFirst = new XYSeries( "First" );
-        final XYSeries bestSecond = new XYSeries( "Second" );
+        Vector<Double> bestResults = new Vector<>();
+        final XYSeries bestFirst = new XYSeries("First");
+        final XYSeries bestSecond = new XYSeries("Second");
 
         for (int i = 0; i < iters; i++) {
             System.out.println("processing generation: " + i);
             Iterator<Chromosome> iter = chromosomes.iterator();
-            for(int j = 0; j < chromosomes.size(); j++){
+            for (int j = 0; j < chromosomes.size(); j++) {
                 Chromosome chrom = iter.next();
                 chrom.setFitness(this.runRobocode(chrom.getGenes(), enemyList));
             }
 
             TreeSet<Chromosome> newChromosomes = new TreeSet<>();
-            for (Chromosome chromosome : chromosomes){
+            for (Chromosome chromosome : chromosomes) {
                 newChromosomes.add(chromosome);
             }
             Iterator<Chromosome> iter2 = newChromosomes.iterator();
-            bestFirst.add(i,iter2.next().getFitness());
-            bestSecond.add(i,iter2.next().getFitness());
+            bestFirst.add(i, iter2.next().getFitness());
+            bestSecond.add(i, iter2.next().getFitness());
             chromosomes = new TreeSet<>();
             // upravit, do best tanku se pridaji tanky s random fittnes - ani ne nejvyssim, ani nejmensim, nedava to smysl
             for (int j = 0; j < Config.getPercBest() * Config.getPopSize(); j++) {
@@ -81,14 +78,12 @@ public class Population {
                 chromosomes.add(new Chromosome());
             }
         }
-        final XYSeriesCollection dataset = new XYSeriesCollection( );
-        dataset.addSeries( bestFirst );
-        dataset.addSeries( bestSecond );
+        final XYSeriesCollection dataset = new XYSeriesCollection();
+        dataset.addSeries(bestFirst);
+        dataset.addSeries(bestSecond);
 
         Graph graph = new Graph("Results", "First and second best in iteration", dataset);
-
     }
-
 
     public void mutate(Chromosome chrom) {
         Random rnd = new Random();
@@ -172,16 +167,13 @@ public class Population {
         System.out.println(battleListener.getResults()[1].getTeamLeaderName());
 
         double fitness;
-        if(battleListener.getResults()[0].getTeamLeaderName().equals("sample.TankDst")){
+        if (battleListener.getResults()[0].getTeamLeaderName().equals("sample.TankDst")) {
             fitness = battleListener.getResults()[0].getScore();
-        }else{
+        } else {
             fitness = battleListener.getResults()[1].getScore();
         }
         // Cleanup our RobocodeEngine
         engine.close();
-
-        // Make sure that the Java VM is shut down properly
-        //System.exit(0);
 
         return fitness;
     }
@@ -205,7 +197,7 @@ public class Population {
             genesOnHit.add(genes.get(counter));
         }
 
-        try{
+        try {
             PrintWriter writer = new PrintWriter(dst, "UTF-8");
 
             writer.println("package sample;");
@@ -216,30 +208,28 @@ public class Population {
             writer.println("import robocode.HitByBulletEvent;");
             writer.println();
             writer.println("public class TankDst extends Robot{");
-                writer.println("public void run() {");
-                    writer.println("while (true) {");
-                        for(int i = 0; i < genesRun.size();i++){
-                            runSwitch(genesRun.get(i).type,genesRun.get(i).value, writer);
-                        }
-                    writer.println("}");
-                writer.println("}");
+            writer.println("public void run() {");
+            writer.println("while (true) {");
+            for (Gene aGenesRun : genesRun) {
+                runSwitch(aGenesRun.type, aGenesRun.value, writer);
+            }
+            writer.println("}");
+            writer.println("}");
 
-                writer.println("public void onScannedRobot(ScannedRobotEvent e) {");
-                    for(int i = 0; i < genesOnScanned.size();i++){
-                        runSwitch(genesOnScanned.get(i).type,genesOnScanned.get(i).value, writer);
-                    }
-                writer.println("}");
+            writer.println("public void onScannedRobot(ScannedRobotEvent e) {");
+            for (Gene aGenesOnScanned : genesOnScanned) {
+                runSwitch(aGenesOnScanned.type, aGenesOnScanned.value, writer);
+            }
+            writer.println("}");
 
-                writer.println("public void onHitRobot(HitRobotEvent event) {");
-                    for(int i = 0; i < genesOnHit.size();i++){
-                        runSwitch(genesOnHit.get(i).type,genesOnHit.get(i).value, writer);
-                    }
-                writer.println("}");
+            writer.println("public void onHitRobot(HitRobotEvent event) {");
+            for (Gene aGenesOnHit : genesOnHit) {
+                runSwitch(aGenesOnHit.type, aGenesOnHit.value, writer);
+            }
+            writer.println("}");
             writer.println("}");
             writer.close();
-        }catch(FileNotFoundException e){
-            System.out.println(e);
-        }catch(UnsupportedEncodingException e){
+        } catch (FileNotFoundException | UnsupportedEncodingException e) {
             System.out.println(e);
         }
 
