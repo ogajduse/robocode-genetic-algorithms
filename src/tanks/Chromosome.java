@@ -20,6 +20,10 @@ public class Chromosome implements Comparable<Chromosome> {
         return genes.get(index);
     }
 
+    public void setGenes( Vector<Gene> genes){
+        this.genes = genes;
+    }
+
     public double getFitness() {
         return fitness;
     }

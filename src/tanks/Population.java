@@ -7,6 +7,7 @@ import robocode.control.BattleSpecification;
 import robocode.control.BattlefieldSpecification;
 import robocode.control.RobocodeEngine;
 import robocode.control.RobotSpecification;
+import sun.reflect.generics.tree.Tree;
 
 import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
@@ -27,6 +28,10 @@ public class Population {
         init();
     }
 
+    public Population(TreeSet<Chromosome> chromosomes){
+        this.chromosomes = chromosomes;
+    }
+
     private void init() {
         for (int i = 0; i < Config.getPopSize(); i++) {
             chromosomes.add(new Chromosome());
@@ -45,8 +50,13 @@ public class Population {
         final XYSeries bestFirst = new XYSeries("First");
         final XYSeries bestSecond = new XYSeries("Second");
 
+        Vector<Double> bestResults = new Vector<Double>();
+
+        DataFactory df = new DataFactory();
+
         for (int i = 0; i < iters; i++) {
-            System.out.println("processing generation: " + i);
+            System.out.println("Processing generation " + i + " ...");
+
             Iterator<Chromosome> iter = chromosomes.iterator();
             for (int j = 0; j < chromosomes.size(); j++) {
                 Chromosome chrom = iter.next();
