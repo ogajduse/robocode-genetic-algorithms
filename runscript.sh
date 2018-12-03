@@ -17,6 +17,6 @@ done
 rm -rf $SCRIPTPATH/$OUTDIR
 mkdir $SCRIPTPATH/$OUTDIR
 
-$JAVAC -d $SCRIPTPATH/$OUTDIR $SCRIPTPATH/src/sample/*.java $SCRIPTPATH/src/tanks/*.java
+$JAVAC -classpath $CLASSPATH -d $SCRIPTPATH/$OUTDIR $SCRIPTPATH/src/sample/*.java $SCRIPTPATH/src/tanks/*.java
 
 $JAVA -Dfile.encoding=UTF-8 -classpath $CLASSPATH $RUN_CLASS
