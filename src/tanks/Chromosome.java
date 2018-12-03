@@ -27,19 +27,6 @@ public class Chromosome implements Comparable<Chromosome> {
         this.fitness = fitness;
     }
 
-    public double calcFit(){
-        double fitness = 0;
-        for (int i = 0; i < genes.size(); i++) {
-            fitness += genes.get(i).type * genes.get(i).value;
-        }
-        this.fitness = fitness;
-        return fitness;
-    }
-
-    public void createCode(){
-
-    }
-
     public void showGenesInChromosome(){
         for (int i = 0; i < genes.size() ; i++) {
             genes.get(i).ShowGenes();
@@ -55,9 +42,9 @@ public class Chromosome implements Comparable<Chromosome> {
     @Override
     public int compareTo(Chromosome chromosome) {
         if (getFitness() <= chromosome.getFitness()) {
-            return -1;
-        } else {
             return 1;
+        } else {
+            return -1;
         }
     }
 }
