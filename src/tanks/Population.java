@@ -72,6 +72,9 @@ public class Population {
             for (Chromosome chromosome : chromosomes) {
                 newChromosomes.add(chromosome);
             }
+
+            dataFactory.writeGeneration(newChromosomes, i);
+
             Iterator<Chromosome> iter2 = newChromosomes.iterator();
             bestFirst.add(i, iter2.next().getFitness());
             bestSecond.add(i, iter2.next().getFitness());
