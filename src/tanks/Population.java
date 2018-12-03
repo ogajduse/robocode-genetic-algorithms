@@ -1,7 +1,5 @@
 package tanks;
 
-import org.jfree.data.xy.XYSeries;
-import org.jfree.data.xy.XYSeriesCollection;
 import robocode.BattleResults;
 import robocode.control.BattleSpecification;
 import robocode.control.BattlefieldSpecification;
@@ -45,12 +43,6 @@ public class Population {
 
     public void evolve(int iters) throws IOException {
 
-<<<<<<< HEAD
-        Vector<Double> bestResults = new Vector<Double>();
-=======
-        final XYSeries bestFirst = new XYSeries( "First" );
-        final XYSeries bestSecond = new XYSeries( "Second" );
->>>>>>> feature/results-graph
 
         for (int i = 0; i < iters; i++) {
 
@@ -86,19 +78,8 @@ public class Population {
             }
 
 
-            Iterator<Chromosome> iter2 = chromosomes.iterator();
-            bestFirst.add(i,iter2.next().getFitness());
-            bestSecond.add(i,iter2.next().getFitness());
-
-
-
-
         }
-        final XYSeriesCollection dataset = new XYSeriesCollection( );
-        dataset.addSeries( bestFirst );
-        dataset.addSeries( bestSecond );
 
-        Graph graph = new Graph("Results", "First and second best in iteration", dataset);
 
     }
 

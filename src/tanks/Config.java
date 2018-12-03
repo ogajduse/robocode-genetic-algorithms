@@ -2,22 +2,11 @@ package tanks;
 
 public class Config {
 
-    private static int iter  = 100;
-
-<<<<<<< HEAD
-    private static int popSize  = 100;
-
     public static int numberOfCommands = 8;
-
-    private static double percBest = 0.1;
-    private static double percCros = 0.7;
-=======
     private static int popSize  = 5;
     private static int iter  = 20;
-    private static double percBest = 0.2;
-    private static double percCros = 0.3;
-    private static double percMuta = 0.3;
->>>>>>> feature/results-graph
+    private static double percBest = 0.1;
+    private static double percCros = 0.6;
     private static double percNew = 0.2;
 
     public static int numOfGenes = 10;
