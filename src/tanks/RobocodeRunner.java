@@ -5,11 +5,16 @@ import java.io.IOException;
 public class RobocodeRunner {
 
     public static void main(String[] args) throws IOException {
-        DataFactory dft = new DataFactory();
-        //TreeSet<Chromosome> tst = dft.getGeneration(1543770809);
-        Config conf = new Config();
+        long startTime;
+        DataFactory dataFactory;
 
-        Population pop = new Population();
+        dataFactory = new DataFactory();
+        startTime = dataFactory.getUnixTimestamp();
+
+        //TreeSet<Chromosome> tst = dft.getGeneration(1543770809);
+        dataFactory.writeConfig();
+
+        Population pop = new Population(startTime);
         pop.evolve(Config.getIter());
     }
 
