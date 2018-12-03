@@ -1,5 +1,7 @@
 package tanks;
 
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 import robocode.BattleResults;
 import robocode.control.BattleSpecification;
 import robocode.control.BattlefieldSpecification;
@@ -79,7 +81,11 @@ public class Population {
                 chromosomes.add(new Chromosome());
             }
         }
+        final XYSeriesCollection dataset = new XYSeriesCollection( );
+        dataset.addSeries( bestFirst );
+        dataset.addSeries( bestSecond );
 
+        Graph graph = new Graph("Results", "First and second best in iteration", dataset);
 
     }
 
