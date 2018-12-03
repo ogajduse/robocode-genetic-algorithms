@@ -2,7 +2,6 @@ package tanks;
 
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-import robocode.BattleResults;
 import robocode.control.BattleSpecification;
 import robocode.control.BattlefieldSpecification;
 import robocode.control.RobocodeEngine;
@@ -79,7 +78,7 @@ public class Population {
             bestFirst.add(i, iter2.next().getFitness());
             bestSecond.add(i, iter2.next().getFitness());
             chromosomes = new TreeSet<>();
-            // upravit, do best tanku se pridaji tanky s random fittnes - ani ne nejvyssim, ani nejmensim, nedava to smysl
+
             for (int j = 0; j < Config.getPercBest() * Config.getPopSize(); j++) {
                 chromosomes.add(newChromosomes.pollFirst());
             }
