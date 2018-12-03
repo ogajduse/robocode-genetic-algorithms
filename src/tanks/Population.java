@@ -167,10 +167,6 @@ public class Population {
         // Run our specified battle and let it run till it's over
         engine.runBattle(battleSpec, true/* wait till the battle is over */);
 
-        for (BattleResults result : battleListener.getResults()) {
-            System.out.println(result.getTeamLeaderName() + " - " + result.getScore());
-        }
-
         System.out.println(battleListener.getResults()[1].getTeamLeaderName());
 
         double fitness;
