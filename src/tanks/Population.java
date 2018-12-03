@@ -20,7 +20,15 @@ import java.util.Vector;
 public class Population {
     private String myRobot = "TankCreator";
     private String enemyList = "Crazy";
+    private long startTime = 0;
+    private DataFactory dataFactory;
     private TreeSet<Chromosome> chromosomes;
+
+    public Population(long startTime) {
+        this();
+        this.startTime = startTime;
+        dataFactory = new DataFactory(this.startTime);
+    }
 
     public Population() {
         chromosomes = new TreeSet<>();
@@ -29,6 +37,8 @@ public class Population {
 
     public Population(TreeSet<Chromosome> chromosomes) {
         this.chromosomes = chromosomes;
+        dataFactory = new DataFactory();
+        startTime = dataFactory.getUnixTimestamp();
     }
 
     private void init() {
@@ -48,8 +58,6 @@ public class Population {
         Vector<Double> bestResults = new Vector<>();
         final XYSeries bestFirst = new XYSeries("First");
         final XYSeries bestSecond = new XYSeries("Second");
-
-        DataFactory df = new DataFactory();
 
         for (int i = 0; i < iters; i++) {
             System.out.println("Processing generation " + i + " ...");
