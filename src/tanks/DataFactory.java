@@ -1,12 +1,13 @@
 package tanks;
 
-import java.io.*;
-import java.time.Instant;
-import java.util.*;
-
 import com.esotericsoftware.yamlbeans.YamlException;
 import com.esotericsoftware.yamlbeans.YamlReader;
 import com.esotericsoftware.yamlbeans.YamlWriter;
+
+import java.io.*;
+import java.time.Instant;
+import java.util.Arrays;
+import java.util.TreeSet;
 
 public class DataFactory {
     private String fileDir = "out/yaml/";

@@ -1,9 +1,6 @@
 package tanks;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
-import java.util.TreeSet;
 
 public class RobocodeRunner {
 

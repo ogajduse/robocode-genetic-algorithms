@@ -7,7 +7,6 @@ import robocode.control.BattleSpecification;
 import robocode.control.BattlefieldSpecification;
 import robocode.control.RobocodeEngine;
 import robocode.control.RobotSpecification;
-import sun.reflect.generics.tree.Tree;
 
 import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
@@ -28,7 +27,7 @@ public class Population {
         init();
     }
 
-    public Population(TreeSet<Chromosome> chromosomes){
+    public Population(TreeSet<Chromosome> chromosomes) {
         this.chromosomes = chromosomes;
     }
 

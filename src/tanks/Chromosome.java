@@ -16,12 +16,12 @@ public class Chromosome implements Comparable<Chromosome> {
         return genes;
     }
 
-    public Gene getGene(int index) {
-        return genes.get(index);
+    public void setGenes(Vector<Gene> genes) {
+        this.genes = genes;
     }
 
-    public void setGenes( Vector<Gene> genes){
-        this.genes = genes;
+    public Gene getGene(int index) {
+        return genes.get(index);
     }
 
     public double getFitness() {
