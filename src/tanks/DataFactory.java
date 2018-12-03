@@ -27,22 +27,24 @@ public class DataFactory {
 
     public void writeGeneration(TreeSet chromosomes, Integer iter) {
         String dstDir = this.fileDir + this.unixTimestamp.toString();
-        String fileDst = this.fileDir + this.unixTimestamp.toString() + "/" + "generation" + iter.toString() + ".yaml";
+        String fileDst = dstDir + "/" + "generation" + iter.toString() + ".yaml";
 
-        YamlWriter writer = null;
-        boolean mkdirs = new File(dstDir).mkdirs();
-        File file = new File(fileDst);
+        ensureDirectoryExists(dstDir);
+        writeObject(chromosomes, fileDst);
 
+
+    private boolean ensureDirectoryExists(String dstDir) {
+        return new File(dstDir).mkdirs();
+    }
+
+    private void writeObject(Object object, String dstPath) {
+        File file = new File(dstPath);
         try {
-            writer = new YamlWriter(new FileWriter(file));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
+            YamlWriter writer = new YamlWriter(new FileWriter(file));
             assert writer != null;
-            writer.write(chromosomes);
+            writer.write(object);
             writer.close();
-        } catch (YamlException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
