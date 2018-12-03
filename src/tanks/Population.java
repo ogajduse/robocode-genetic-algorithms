@@ -44,16 +44,12 @@ public class Population {
     }
 
     public void evolve(int iters) throws IOException {
-
-<<<<<<< HEAD
         Vector<Double> bestResults = new Vector<Double>();
-=======
         final XYSeries bestFirst = new XYSeries( "First" );
         final XYSeries bestSecond = new XYSeries( "Second" );
->>>>>>> feature/results-graph
 
         for (int i = 0; i < iters; i++) {
-
+            System.out.println("processing generation: " + i);
             Iterator<Chromosome> iter = chromosomes.iterator();
             for(int j = 0; j < chromosomes.size(); j++){
                 Chromosome chrom = iter.next();
@@ -61,38 +57,29 @@ public class Population {
             }
 
             TreeSet<Chromosome> newChromosomes = new TreeSet<>();
+            for (Chromosome chromosome : chromosomes){
+                newChromosomes.add(chromosome);
+            }
+            Iterator<Chromosome> iter2 = newChromosomes.iterator();
+            bestFirst.add(i,iter2.next().getFitness());
+            bestSecond.add(i,iter2.next().getFitness());
+            chromosomes = new TreeSet<>();
+            // upravit, do best tanku se pridaji tanky s random fittnes - ani ne nejvyssim, ani nejmensim, nedava to smysl
             for (int j = 0; j < Config.getPercBest() * Config.getPopSize(); j++) {
-                newChromosomes.add(chromosomes.pollFirst());
+                chromosomes.add(newChromosomes.pollFirst());
             }
             for (int j = 0; j < (Config.getPercCros() / 2) * Config.getPopSize(); j++) {
-                Chromosome ch1 = chromosomes.pollFirst();
-                Chromosome ch2 = chromosomes.pollFirst();
+                Chromosome ch1 = newChromosomes.pollFirst();
+                Chromosome ch2 = newChromosomes.pollFirst();
                 crossover(ch1, ch2);
                 mutate(ch1);
                 mutate(ch2);
-                newChromosomes.add(ch1);
-                newChromosomes.add(ch2);
+                chromosomes.add(ch1);
+                chromosomes.add(ch2);
             }
             for (int j = 0; j < Config.getPercNew() * Config.getPopSize(); j++) {
-                newChromosomes.add(new Chromosome());
+                chromosomes.add(new Chromosome());
             }
-            // calc fit for all the new chromosomes
-            for (Chromosome chromosome : newChromosomes) {
-                chromosome.calcFit();
-            }
-            chromosomes = new TreeSet<>();
-            for (Chromosome chromosome : newChromosomes){
-                chromosomes.add(chromosome);
-            }
-
-
-            Iterator<Chromosome> iter2 = chromosomes.iterator();
-            bestFirst.add(i,iter2.next().getFitness());
-            bestSecond.add(i,iter2.next().getFitness());
-
-
-
-
         }
         final XYSeriesCollection dataset = new XYSeriesCollection( );
         dataset.addSeries( bestFirst );
@@ -105,7 +92,7 @@ public class Population {
 
     public void mutate(Chromosome chrom) {
         Random rnd = new Random();
-        for (int i = 0; i < 0.1 * Config.getNumOfGenes(); i++) { /* TODO: proc nasobime 0.1* ? */
+        for (int i = 0; i < 0.1 * Config.getNumOfGenes(); i++) {
             int randomNumber = rnd.nextInt(Config.getNumOfGenes());
             Gene gene = chrom.getGene(randomNumber);
             Gene gene2 = new Gene();
@@ -116,7 +103,7 @@ public class Population {
 
     public void crossover(Chromosome chrom1, Chromosome chrom2) {
         Random rnd = new Random();
-        for (int i = 0; i < 0.1 * Config.getNumOfGenes(); i++) { /* TODO: proc nasobime 0.1* ? */
+        for (int i = 0; i < 0.1 * Config.getNumOfGenes(); i++) {
             int randomNumber = rnd.nextInt(Config.getNumOfGenes());
             Gene gen1 = chrom1.getGene(randomNumber);
             Gene gen2 = chrom2.getGene(randomNumber);
@@ -139,13 +126,9 @@ public class Population {
 
         //Files.copy(source.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
-
-
         createTank(genes, dest);
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
         compiler.run(null, System.out, System.out, dst);
-
-
 
         seznamProtivniku = seznamProtivniku.replaceAll("\\s", "");
 
