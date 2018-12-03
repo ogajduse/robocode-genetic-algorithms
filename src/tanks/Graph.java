@@ -48,7 +48,9 @@ public class Graph extends ApplicationFrame {
         Rectangle r = new Rectangle(0, 0, 800, 470);
         chart.draw(g2, r);
         long time = Instant.now().getEpochSecond();
-        File f = new File("/tmp/RobocodeGraph" + time + ".png");
+        String dstDir = "out/img";
+        boolean mkdirs = new File(dstDir).mkdirs();
+        File f = new File(dstDir + "/RobocodeGraph" + time + ".png");
 
         BufferedImage chartImage = chart.createBufferedImage(800, 470, null);
         try {
