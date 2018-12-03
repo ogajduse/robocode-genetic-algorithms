@@ -17,6 +17,14 @@ public class DataFactory {
         this.unixTimestamp = Instant.now().getEpochSecond();
     }
 
+    public DataFactory(long unixTimestamp) {
+        this.unixTimestamp = unixTimestamp;
+    }
+
+    public Long getUnixTimestamp() {
+        return unixTimestamp;
+    }
+
     public void writeGeneration(TreeSet chromosomes, Integer iter) {
         String dstDir = this.fileDir + this.unixTimestamp.toString();
         String fileDst = this.fileDir + this.unixTimestamp.toString() + "/" + "generation" + iter.toString() + ".yaml";
