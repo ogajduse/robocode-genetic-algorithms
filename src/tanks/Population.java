@@ -198,15 +198,18 @@ public class Population {
 
         genesRun = new Vector<>();
         int counter = 0;
-        for (; counter < Config.getPercRun() * Config.getNumOfGenes(); counter++) {
+        double condition = Config.getPercRun() * Config.getNumOfGenes();
+        for (; counter < condition; counter++) {
             genesRun.add(genes.get(counter));
         }
         genesOnScanned = new Vector<>();
-        for (; counter < Config.getPercOnScanned() * Config.getNumOfGenes(); counter++) {
+        condition += Config.getPercOnScanned() * Config.getNumOfGenes();
+        for (; counter < condition; counter++) {
             genesOnScanned.add(genes.get(counter));
         }
         genesOnHit = new Vector<>();
-        for (; counter < Config.getPercOnHit() * Config.getNumOfGenes(); counter++) {
+        condition += Config.getPercOnHit() * Config.getNumOfGenes();
+        for (; counter < condition; counter++) {
             genesOnHit.add(genes.get(counter));
         }
 
