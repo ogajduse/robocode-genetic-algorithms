@@ -20,11 +20,11 @@ public class Graph extends ApplicationFrame {
         super(applicationTitle);
         JFreeChart xylineChart = ChartFactory.createXYLineChart(
                 chartTitle,
-                "Category",
-                "Score",
+                "Generace",
+                "Fitness",
                 dataset,
                 PlotOrientation.VERTICAL,
-                true, true, false);
+                true, false, false);
 
         ChartPanel chartPanel = new ChartPanel(xylineChart);
         chartPanel.setPreferredSize(new java.awt.Dimension(560, 367));
@@ -32,8 +32,9 @@ public class Graph extends ApplicationFrame {
         XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
         renderer.setSeriesPaint(0, Color.RED);
         renderer.setSeriesPaint(1, Color.GREEN);
-        renderer.setSeriesStroke(0, new BasicStroke(4.0f));
-        renderer.setSeriesStroke(1, new BasicStroke(3.0f));
+        renderer.setSeriesStroke(0, new BasicStroke(1.0f));
+        renderer.setSeriesStroke(1, new BasicStroke(1.0f));
+        renderer.setBaseShapesVisible(false);
         plot.setRenderer(renderer);
         setContentPane(chartPanel);
         createScreen(xylineChart, unixTimestamp);
