@@ -1,5 +1,6 @@
 package tanks;
 
+import robocode.BattleResults;
 import robocode.control.BattleSpecification;
 import robocode.control.BattlefieldSpecification;
 import robocode.control.RobocodeEngine;
@@ -158,12 +159,14 @@ public class Population {
         // Run our specified battle and let it run till it's over
         engine.runBattle(battleSpec, true/* wait till the battle is over */);
 
-        double fitness;
-        if (battleListener.getResults()[0].getTeamLeaderName().equals("sample.TankDst")) {
-            fitness = battleListener.getResults()[0].getScore();
-        } else {
-            fitness = battleListener.getResults()[1].getScore();
+        double fitness = -1;
+        for (BattleResults battleResult : battleListener.getResults()) {
+            if (battleResult.getTeamLeaderName().equals("sample.TankDst")) {
+                fitness = battleResult.getScore();
+                break;
+            }
         }
+        
         // Cleanup our RobocodeEngine
         engine.close();
 
