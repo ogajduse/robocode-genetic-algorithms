@@ -52,11 +52,7 @@ public class Population {
     }
 
     public void evolve(int iters) throws IOException {
-        Vector<Double> bestResults = new Vector<>();
-
         for (int i = 0; i < iters; i++) {
-            System.out.println("Processing generation " + i + " ...");
-
             Iterator<Chromosome> iter = chromosomes.iterator();
             for (int j = 0; j < chromosomes.size(); j++) {
                 Chromosome chrom = iter.next();
@@ -70,7 +66,6 @@ public class Population {
 
             dataFactory.writeGeneration(newChromosomes, i);
 
-            Iterator<Chromosome> iter2 = newChromosomes.iterator();
             chromosomes = new TreeSet<>();
 
             for (int j = 0; j < Config.getPercBest() * Config.getPopSize(); j++) {
