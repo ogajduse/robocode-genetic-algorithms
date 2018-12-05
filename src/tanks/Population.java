@@ -2,7 +2,6 @@ package tanks;
 
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-import robocode.BattleResults;
 import robocode.control.BattleSpecification;
 import robocode.control.BattlefieldSpecification;
 import robocode.control.RobocodeEngine;
@@ -20,11 +19,25 @@ import java.util.Vector;
 public class Population {
     private String myRobot = "TankCreator";
     private String enemyList = "Crazy";
+    private long startTime = 0;
+    private DataFactory dataFactory;
     private TreeSet<Chromosome> chromosomes;
+
+    public Population(long startTime) {
+        this();
+        this.startTime = startTime;
+        dataFactory = new DataFactory(this.startTime);
+    }
 
     public Population() {
         chromosomes = new TreeSet<>();
         init();
+    }
+
+    public Population(TreeSet<Chromosome> chromosomes) {
+        this.chromosomes = chromosomes;
+        dataFactory = new DataFactory();
+        startTime = dataFactory.getUnixTimestamp();
     }
 
     private void init() {
@@ -46,7 +59,8 @@ public class Population {
         final XYSeries bestSecond = new XYSeries("Second");
 
         for (int i = 0; i < iters; i++) {
-            System.out.println("processing generation: " + i);
+            System.out.println("Processing generation " + i + " ...");
+
             Iterator<Chromosome> iter = chromosomes.iterator();
             for (int j = 0; j < chromosomes.size(); j++) {
                 Chromosome chrom = iter.next();
@@ -57,11 +71,14 @@ public class Population {
             for (Chromosome chromosome : chromosomes) {
                 newChromosomes.add(chromosome);
             }
+
+            dataFactory.writeGeneration(newChromosomes, i);
+
             Iterator<Chromosome> iter2 = newChromosomes.iterator();
             bestFirst.add(i, iter2.next().getFitness());
             bestSecond.add(i, iter2.next().getFitness());
             chromosomes = new TreeSet<>();
-            // upravit, do best tanku se pridaji tanky s random fittnes - ani ne nejvyssim, ani nejmensim, nedava to smysl
+
             for (int j = 0; j < Config.getPercBest() * Config.getPopSize(); j++) {
                 chromosomes.add(newChromosomes.pollFirst());
             }
@@ -82,7 +99,7 @@ public class Population {
         dataset.addSeries(bestFirst);
         dataset.addSeries(bestSecond);
 
-        Graph graph = new Graph("Results", "First and second best in iteration", dataset);
+        Graph graph = new Graph("Results", "First and second best in iteration", dataset, startTime);
     }
 
     public void mutate(Chromosome chrom) {
@@ -160,10 +177,6 @@ public class Population {
         // Run our specified battle and let it run till it's over
         engine.runBattle(battleSpec, true/* wait till the battle is over */);
 
-        for (BattleResults result : battleListener.getResults()) {
-            System.out.println(result.getTeamLeaderName() + " - " + result.getScore());
-        }
-
         System.out.println(battleListener.getResults()[1].getTeamLeaderName());
 
         double fitness;
@@ -185,15 +198,18 @@ public class Population {
 
         genesRun = new Vector<>();
         int counter = 0;
-        for (; counter < Config.getPercRun() * Config.getNumOfGenes(); counter++) {
+        double condition = Config.getPercRun() * Config.getNumOfGenes();
+        for (; counter < condition; counter++) {
             genesRun.add(genes.get(counter));
         }
         genesOnScanned = new Vector<>();
-        for (; counter < Config.getPercOnScanned() * Config.getNumOfGenes(); counter++) {
+        condition += Config.getPercOnScanned() * Config.getNumOfGenes();
+        for (; counter < condition; counter++) {
             genesOnScanned.add(genes.get(counter));
         }
         genesOnHit = new Vector<>();
-        for (; counter < Config.getPercOnHit() * Config.getNumOfGenes(); counter++) {
+        condition += Config.getPercOnHit() * Config.getNumOfGenes();
+        for (; counter < condition; counter++) {
             genesOnHit.add(genes.get(counter));
         }
 

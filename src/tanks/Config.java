@@ -1,7 +1,6 @@
 package tanks;
 
 public class Config {
-
     public static int numberOfCommands = 8;
     public static int numOfGenes = 10;
     public static double percRun = 0.4;
@@ -19,6 +18,10 @@ public class Config {
 
     public static double getPercBest() {
         return percBest;
+    }
+
+    public static int getNumberOfCommands() {
+        return numberOfCommands;
     }
 
     public static double getPercCros() {
@@ -46,7 +49,6 @@ public class Config {
     }
 
     public static int getPopSize() {
-
         return popSize;
     }
 }

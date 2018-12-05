@@ -5,17 +5,17 @@ import java.io.IOException;
 public class RobocodeRunner {
 
     public static void main(String[] args) throws IOException {
+        long startTime;
+        DataFactory dataFactory;
 
-        Config conf = new Config();
+        dataFactory = new DataFactory();
+        startTime = dataFactory.getUnixTimestamp();
 
-        Population pop = new Population();
+        //TreeSet<Chromosome> tst = dft.getGeneration(1543770809);
+        dataFactory.writeConfig();
 
-        //op.loadBest();
-
+        Population pop = new Population(startTime);
         pop.evolve(Config.getIter());
-
-
-        //pop.writeBest();
     }
 
 

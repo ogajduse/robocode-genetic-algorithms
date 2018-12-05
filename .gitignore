@@ -1,2 +1,10 @@
 .idea/
 out/
+bin/
+
+robots/robot.database
+
+robots/sample/TankDst.java
+robots/sample/TankDst.class
+
+config/robocode.properties
