@@ -8,10 +8,7 @@ import robocode.control.RobotSpecification;
 import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
 import java.io.*;
-import java.util.Iterator;
-import java.util.Random;
-import java.util.TreeSet;
-import java.util.Vector;
+import java.util.*;
 
 
 public class Population {
@@ -19,7 +16,7 @@ public class Population {
     private String enemyList = "Crazy";
     private long startTime = 0;
     private DataFactory dataFactory;
-    private TreeSet<Chromosome> chromosomes;
+    private ArrayList<Chromosome> chromosomes;
 
     public Population(long startTime) {
         this();
@@ -28,11 +25,11 @@ public class Population {
     }
 
     public Population() {
-        chromosomes = new TreeSet<>();
+        chromosomes = new ArrayList<>();
         init();
     }
 
-    public Population(TreeSet<Chromosome> chromosomes) {
+    public Population(ArrayList<Chromosome> chromosomes) {
         this.chromosomes = chromosomes;
         dataFactory = new DataFactory();
         startTime = dataFactory.getUnixTimestamp();
@@ -66,7 +63,7 @@ public class Population {
 
             dataFactory.writeGeneration(newChromosomes, i);
 
-            chromosomes = new TreeSet<>();
+            chromosomes = new ArrayList<>();
 
             for (int j = 0; j < Config.getPercBest() * Config.getPopSize(); j++) {
                 chromosomes.add(newChromosomes.pollFirst());

@@ -6,6 +6,7 @@ import com.esotericsoftware.yamlbeans.YamlWriter;
 
 import java.io.*;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.TreeSet;
@@ -91,22 +92,22 @@ public class DataFactory {
         return object;
     }
 
-    public TreeSet getGeneration(Integer timestamp, Integer index) {
+    public ArrayList<Chromosome> getGeneration(Integer timestamp, Integer index) {
         File[] files = searchFiles(timestamp);
         File file = Arrays.asList(files).get(index);
 
         Object object = readFile(file);
 
-        return (TreeSet) object;
+        return new ArrayList<>((TreeSet<Chromosome>) object);
     }
 
-    public TreeSet getGeneration(Integer timestamp) {
+    public ArrayList<Chromosome> getGeneration(Integer timestamp) {
         File[] files = searchFiles(timestamp);
         // get the last generation
         File file = Arrays.asList(files).get(files.length - 1);
 
         Object object = readFile(file);
 
-        return (TreeSet) object;
+        return new ArrayList<>((TreeSet<Chromosome>) object);
     }
 }
