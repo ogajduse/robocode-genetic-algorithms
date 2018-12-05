@@ -9,6 +9,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.TreeSet;
 
 public class DataFactory {
@@ -27,7 +28,7 @@ public class DataFactory {
         return unixTimestamp;
     }
 
-    public void writeGeneration(TreeSet chromosomes, Integer iter) {
+    public void writeGeneration(TreeSet<Chromosome> chromosomes, Integer iter) {
         String dstDir = this.fileDir + this.unixTimestamp.toString();
         String fileDst = dstDir + "/" + "generation" + iter.toString() + ".yaml";
 
@@ -39,7 +40,7 @@ public class DataFactory {
         String dstDir = this.fileDir + this.unixTimestamp.toString();
         String fileDst = dstDir + "/" + "config.yaml";
 
-        HashMap<String, Number> config = new HashMap();
+        HashMap<String, Number> config = new HashMap<>();
 
         config.put("percRun", Config.getPercRun());
         config.put("percOnHit", Config.getPercOnHit());
@@ -109,5 +110,18 @@ public class DataFactory {
         Object object = readFile(file);
 
         return new ArrayList<>((TreeSet<Chromosome>) object);
+    }
+
+    public LinkedList[] getScoreFromRun(Integer timestamp){
+        File[] files = searchFiles(timestamp);
+        TreeSet<Chromosome> chromosomes;
+        LinkedList<Double> bestFirst = new LinkedList<>();
+        LinkedList<Double> bestSecond = new LinkedList<>();
+        for (File file : files) {
+            chromosomes = (TreeSet) readFile(file);
+            bestFirst.add(chromosomes.pollFirst().getFitness());
+            bestSecond.add(chromosomes.pollFirst().getFitness());
+        }
+        return new LinkedList[]{bestFirst, bestSecond};
     }
 }
