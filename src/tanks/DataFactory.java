@@ -74,8 +74,8 @@ public class DataFactory {
         }
     }
 
-    private File[] searchFiles(Integer timestamp) {
-        File dir = new File(fileDir + "/" + timestamp.toString());
+    private File[] searchFiles() {
+        File dir = new File(fileDir + "/" + this.unixTimestamp.toString());
         File[] files = dir.listFiles((d, name) -> name.startsWith("generation"));
         assert files != null;
         Arrays.sort(files, new AlphanumFileComparator());
@@ -93,8 +93,8 @@ public class DataFactory {
         return object;
     }
 
-    public ArrayList<Chromosome> getGeneration(Integer timestamp, Integer index) {
-        File[] files = searchFiles(timestamp);
+    public ArrayList<Chromosome> getGeneration(Integer index) {
+        File[] files = searchFiles();
         File file = Arrays.asList(files).get(index);
 
         Object object = readFile(file);
@@ -102,8 +102,8 @@ public class DataFactory {
         return new ArrayList<>((TreeSet<Chromosome>) object);
     }
 
-    public ArrayList<Chromosome> getGeneration(Integer timestamp) {
-        File[] files = searchFiles(timestamp);
+    public ArrayList<Chromosome> getGeneration() {
+        File[] files = searchFiles();
         // get the last generation
         File file = Arrays.asList(files).get(files.length - 1);
 
@@ -112,8 +112,8 @@ public class DataFactory {
         return new ArrayList<>((TreeSet<Chromosome>) object);
     }
 
-    public LinkedList[] getScoreFromRun(Integer timestamp){
-        File[] files = searchFiles(timestamp);
+    public LinkedList[] getScoreFromRun(){
+        File[] files = searchFiles();
         TreeSet<Chromosome> chromosomes;
         LinkedList<Double> bestFirst = new LinkedList<>();
         LinkedList<Double> bestSecond = new LinkedList<>();
