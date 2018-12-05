@@ -3,6 +3,8 @@ package tanks;
 import com.esotericsoftware.yamlbeans.YamlException;
 import com.esotericsoftware.yamlbeans.YamlReader;
 import com.esotericsoftware.yamlbeans.YamlWriter;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 
 import java.io.*;
 import java.time.Instant;
@@ -123,5 +125,23 @@ public class DataFactory {
             bestSecond.add(chromosomes.pollFirst().getFitness());
         }
         return new LinkedList[]{bestFirst, bestSecond};
+    }
+
+    public XYSeriesCollection createDataSeries() {
+        LinkedList<Double>[] lists = this.getScoreFromRun();
+        final XYSeries bestFirst = new XYSeries("First");
+        final XYSeries bestSecond = new XYSeries("Second");
+
+        for (int i = 0; i < lists[0].size(); i++) {
+            bestFirst.add(i, lists[0].get(i));
+        }
+        for (int i = 0; i < lists[1].size(); i++) {
+            bestSecond.add(i, lists[1].get(i));
+        }
+
+        final XYSeriesCollection dataset = new XYSeriesCollection();
+        dataset.addSeries(bestFirst);
+        dataset.addSeries(bestSecond);
+        return dataset;
     }
 }
