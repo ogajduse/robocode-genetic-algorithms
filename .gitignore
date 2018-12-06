@@ -6,5 +6,7 @@ robots/robot.database
 
 robots/sample/TankDst.java
 robots/sample/TankDst.class
+robots/sample/TankBoss.java
+robots/sample/TankBoss.class
 
 config/robocode.properties
