@@ -13,7 +13,7 @@ import java.util.*;
 
 
 public class Population {
-    private String myRobot = "TankCreator";
+    private String myRobot = "TankDst";
     private String enemyList = "Crazy";
     private long startTime = 0;
     private DataFactory dataFactory;
