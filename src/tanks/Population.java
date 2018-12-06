@@ -1,7 +1,6 @@
 package tanks;
 
-import org.jfree.data.xy.XYSeries;
-import org.jfree.data.xy.XYSeriesCollection;
+import robocode.BattleResults;
 import robocode.control.BattleSpecification;
 import robocode.control.BattlefieldSpecification;
 import robocode.control.RobocodeEngine;
@@ -10,18 +9,15 @@ import robocode.control.RobotSpecification;
 import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
 import java.io.*;
-import java.util.Iterator;
-import java.util.Random;
-import java.util.TreeSet;
-import java.util.Vector;
+import java.util.*;
 
 
 public class Population {
-    private String myRobot = "TankCreator";
+    private String myRobot = "TankDst";
     private String enemyList = "Crazy";
     private long startTime = 0;
     private DataFactory dataFactory;
-    private TreeSet<Chromosome> chromosomes;
+    private ArrayList<Chromosome> chromosomes;
 
     public Population(long startTime) {
         this();
@@ -30,11 +26,11 @@ public class Population {
     }
 
     public Population() {
-        chromosomes = new TreeSet<>();
+        chromosomes = new ArrayList<>();
         init();
     }
 
-    public Population(TreeSet<Chromosome> chromosomes) {
+    public Population(ArrayList<Chromosome> chromosomes) {
         this.chromosomes = chromosomes;
         dataFactory = new DataFactory();
         startTime = dataFactory.getUnixTimestamp();
@@ -54,17 +50,17 @@ public class Population {
     }
 
     public void evolve(int iters) throws IOException {
-        Vector<Double> bestResults = new Vector<>();
-        final XYSeries bestFirst = new XYSeries("First");
-        final XYSeries bestSecond = new XYSeries("Second");
-
+        // no matter how high the fitness is
+        Chromosome tankBoss = chromosomes.get(0);
+        HashMap<String, Vector<Gene>> listOfTanks = new HashMap();
         for (int i = 0; i < iters; i++) {
-            System.out.println("Processing generation " + i + " ...");
-
             Iterator<Chromosome> iter = chromosomes.iterator();
             for (int j = 0; j < chromosomes.size(); j++) {
                 Chromosome chrom = iter.next();
-                chrom.setFitness(this.runRobocode(chrom.getGenes(), enemyList));
+                listOfTanks.put("TankBoss", tankBoss.getGenes());
+                listOfTanks.put(this.myRobot, chrom.getGenes());
+                chrom.setFitness(this.runRobocode(listOfTanks, enemyList));
+                listOfTanks.clear();
             }
 
             TreeSet<Chromosome> newChromosomes = new TreeSet<>();
@@ -74,10 +70,9 @@ public class Population {
 
             dataFactory.writeGeneration(newChromosomes, i);
 
-            Iterator<Chromosome> iter2 = newChromosomes.iterator();
-            bestFirst.add(i, iter2.next().getFitness());
-            bestSecond.add(i, iter2.next().getFitness());
-            chromosomes = new TreeSet<>();
+            tankBoss = newChromosomes.first();
+
+            chromosomes = new ArrayList<>();
 
             for (int j = 0; j < Config.getPercBest() * Config.getPopSize(); j++) {
                 chromosomes.add(newChromosomes.pollFirst());
@@ -95,11 +90,6 @@ public class Population {
                 chromosomes.add(new Chromosome());
             }
         }
-        final XYSeriesCollection dataset = new XYSeriesCollection();
-        dataset.addSeries(bestFirst);
-        dataset.addSeries(bestSecond);
-
-        Graph graph = new Graph("Results", "First and second best in iteration", dataset, startTime);
     }
 
     public void mutate(Chromosome chrom) {
@@ -128,19 +118,23 @@ public class Population {
         }
     }
 
-    public double runRobocode(Vector<Gene> genes, String seznamProtivniku) throws IOException {
-
-        String mujRobot = "MyRobot";
-
-        String dst = "robots/sample/TankDst.java";
-
+    private void compileTankClass(String dst, Vector<Gene> genes) {
         File dest = new File(dst);
-
-        //Files.copy(source.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
-
         createTank(genes, dest);
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
         compiler.run(null, System.out, System.out, dst);
+
+    }
+
+    public double runRobocode(HashMap<String, Vector<Gene>> listOfTanks, String seznamProtivniku) throws IOException {
+        String dstDir = "robots/sample/";
+
+        for (HashMap.Entry<String, Vector<Gene>> entry : listOfTanks.entrySet()){
+            compileTankClass(String.format("%s%s.java", dstDir, entry.getKey()), entry.getValue());
+            if (entry.getKey() != this.myRobot){
+                seznamProtivniku += String.format(",%s", entry.getKey());
+            }
+        }
 
         seznamProtivniku = seznamProtivniku.replaceAll("\\s", "");
 
@@ -177,14 +171,17 @@ public class Population {
         // Run our specified battle and let it run till it's over
         engine.runBattle(battleSpec, true/* wait till the battle is over */);
 
-        System.out.println(battleListener.getResults()[1].getTeamLeaderName());
+        BattleResults winner = Collections.max(Arrays.asList(battleListener.getResults()));
+        System.out.println(winner.getTeamLeaderName());
 
-        double fitness;
-        if (battleListener.getResults()[0].getTeamLeaderName().equals("sample.TankDst")) {
-            fitness = battleListener.getResults()[0].getScore();
-        } else {
-            fitness = battleListener.getResults()[1].getScore();
+        double fitness = -1;
+        for (BattleResults battleResult : battleListener.getResults()) {
+            if (battleResult.getTeamLeaderName().equals("sample.TankDst")) {
+                fitness = battleResult.getScore();
+                break;
+            }
         }
+        
         // Cleanup our RobocodeEngine
         engine.close();
 
@@ -195,6 +192,7 @@ public class Population {
         Vector<Gene> genesRun;
         Vector<Gene> genesOnScanned;
         Vector<Gene> genesOnHit;
+        String tankName = dst.getName().substring(0, dst.getName().lastIndexOf('.'));
 
         genesRun = new Vector<>();
         int counter = 0;
@@ -223,7 +221,7 @@ public class Population {
             writer.println("import robocode.ScannedRobotEvent;");
             writer.println("import robocode.HitByBulletEvent;");
             writer.println();
-            writer.println("public class TankDst extends Robot{");
+            writer.println("public class " + tankName + " extends Robot{");
             writer.println("public void run() {");
             writer.println("while (true) {");
             for (Gene aGenesRun : genesRun) {

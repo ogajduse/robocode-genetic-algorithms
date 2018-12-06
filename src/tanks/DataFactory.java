@@ -3,11 +3,15 @@ package tanks;
 import com.esotericsoftware.yamlbeans.YamlException;
 import com.esotericsoftware.yamlbeans.YamlReader;
 import com.esotericsoftware.yamlbeans.YamlWriter;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 
 import java.io.*;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.TreeSet;
 
 public class DataFactory {
@@ -26,7 +30,7 @@ public class DataFactory {
         return unixTimestamp;
     }
 
-    public void writeGeneration(TreeSet chromosomes, Integer iter) {
+    public void writeGeneration(TreeSet<Chromosome> chromosomes, Integer iter) {
         String dstDir = this.fileDir + this.unixTimestamp.toString();
         String fileDst = dstDir + "/" + "generation" + iter.toString() + ".yaml";
 
@@ -38,7 +42,7 @@ public class DataFactory {
         String dstDir = this.fileDir + this.unixTimestamp.toString();
         String fileDst = dstDir + "/" + "config.yaml";
 
-        HashMap<String, Number> config = new HashMap();
+        HashMap<String, Number> config = new HashMap<>();
 
         config.put("percRun", Config.getPercRun());
         config.put("percOnHit", Config.getPercOnHit());
@@ -72,8 +76,8 @@ public class DataFactory {
         }
     }
 
-    private File[] searchFiles(Integer timestamp) {
-        File dir = new File(fileDir + "/" + timestamp.toString());
+    private File[] searchFiles() {
+        File dir = new File(fileDir + "/" + this.unixTimestamp.toString());
         File[] files = dir.listFiles((d, name) -> name.startsWith("generation"));
         assert files != null;
         Arrays.sort(files, new AlphanumFileComparator());
@@ -91,22 +95,53 @@ public class DataFactory {
         return object;
     }
 
-    public TreeSet getGeneration(Integer timestamp, Integer index) {
-        File[] files = searchFiles(timestamp);
+    public ArrayList<Chromosome> getGeneration(Integer index) {
+        File[] files = searchFiles();
         File file = Arrays.asList(files).get(index);
 
         Object object = readFile(file);
 
-        return (TreeSet) object;
+        return new ArrayList<>((TreeSet<Chromosome>) object);
     }
 
-    public TreeSet getGeneration(Integer timestamp) {
-        File[] files = searchFiles(timestamp);
+    public ArrayList<Chromosome> getGeneration() {
+        File[] files = searchFiles();
         // get the last generation
         File file = Arrays.asList(files).get(files.length - 1);
 
         Object object = readFile(file);
 
-        return (TreeSet) object;
+        return new ArrayList<>((TreeSet<Chromosome>) object);
+    }
+
+    public LinkedList[] getScoreFromRun(){
+        File[] files = searchFiles();
+        TreeSet<Chromosome> chromosomes;
+        LinkedList<Double> bestFirst = new LinkedList<>();
+        LinkedList<Double> bestSecond = new LinkedList<>();
+        for (File file : files) {
+            chromosomes = (TreeSet) readFile(file);
+            bestFirst.add(chromosomes.pollFirst().getFitness());
+            bestSecond.add(chromosomes.pollFirst().getFitness());
+        }
+        return new LinkedList[]{bestFirst, bestSecond};
+    }
+
+    public XYSeriesCollection createDataSeries() {
+        LinkedList<Double>[] lists = this.getScoreFromRun();
+        final XYSeries bestFirst = new XYSeries("First");
+        final XYSeries bestSecond = new XYSeries("Second");
+
+        for (int i = 0; i < lists[0].size(); i++) {
+            bestFirst.add(i, lists[0].get(i));
+        }
+        for (int i = 0; i < lists[1].size(); i++) {
+            bestSecond.add(i, lists[1].get(i));
+        }
+
+        final XYSeriesCollection dataset = new XYSeriesCollection();
+        dataset.addSeries(bestFirst);
+        dataset.addSeries(bestSecond);
+        return dataset;
     }
 }

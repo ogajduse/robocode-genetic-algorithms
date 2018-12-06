@@ -10,13 +10,16 @@ public class RobocodeRunner {
 
         dataFactory = new DataFactory();
         startTime = dataFactory.getUnixTimestamp();
+//        // ziskani grafu pro konkretni timestamp
+//        XYSeriesCollection dataSeries = dataFactory.createDataSeries();
+//
+//        Graph graph = new Graph("Results", "First and second best in iteration", dataSeries, startTime);
 
-        //TreeSet<Chromosome> tst = dft.getGeneration(1543770809);
+//        // ziskani posledni generace z daneho timestampu
+//        TreeSet<Chromosome> tst = dataFactory.getGeneration();
+
         dataFactory.writeConfig();
-
         Population pop = new Population(startTime);
         pop.evolve(Config.getIter());
     }
-
-
 }
