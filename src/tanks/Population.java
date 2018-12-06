@@ -177,6 +177,7 @@ public class Population {
         Vector<Gene> genesRun;
         Vector<Gene> genesOnScanned;
         Vector<Gene> genesOnHit;
+        String tankName = dst.getName().substring(0, dst.getName().lastIndexOf('.'));
 
         genesRun = new Vector<>();
         int counter = 0;
@@ -205,7 +206,7 @@ public class Population {
             writer.println("import robocode.ScannedRobotEvent;");
             writer.println("import robocode.HitByBulletEvent;");
             writer.println();
-            writer.println("public class TankDst extends Robot{");
+            writer.println("public class " + tankName + " extends Robot{");
             writer.println("public void run() {");
             writer.println("while (true) {");
             for (Gene aGenesRun : genesRun) {
