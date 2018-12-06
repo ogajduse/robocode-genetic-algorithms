@@ -50,11 +50,17 @@ public class Population {
     }
 
     public void evolve(int iters) throws IOException {
+        // no matter how high the fitness is
+        Chromosome tankBoss = chromosomes.get(0);
+        HashMap<String, Vector<Gene>> listOfTanks = new HashMap();
         for (int i = 0; i < iters; i++) {
             Iterator<Chromosome> iter = chromosomes.iterator();
             for (int j = 0; j < chromosomes.size(); j++) {
                 Chromosome chrom = iter.next();
-                chrom.setFitness(this.runRobocode(chrom.getGenes(), enemyList));
+                listOfTanks.put("TankBoss", tankBoss.getGenes());
+                listOfTanks.put(this.myRobot, chrom.getGenes());
+                chrom.setFitness(this.runRobocode(listOfTanks, enemyList));
+                listOfTanks.clear();
             }
 
             TreeSet<Chromosome> newChromosomes = new TreeSet<>();
@@ -63,6 +69,8 @@ public class Population {
             }
 
             dataFactory.writeGeneration(newChromosomes, i);
+
+            tankBoss = newChromosomes.first();
 
             chromosomes = new ArrayList<>();
 
@@ -110,19 +118,23 @@ public class Population {
         }
     }
 
-    public double runRobocode(Vector<Gene> genes, String seznamProtivniku) throws IOException {
-
-        String mujRobot = "MyRobot";
-
-        String dst = "robots/sample/TankDst.java";
-
+    private void compileTankClass(String dst, Vector<Gene> genes) {
         File dest = new File(dst);
-
-        //Files.copy(source.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
-
         createTank(genes, dest);
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
         compiler.run(null, System.out, System.out, dst);
+
+    }
+
+    public double runRobocode(HashMap<String, Vector<Gene>> listOfTanks, String seznamProtivniku) throws IOException {
+        String dstDir = "robots/sample/";
+
+        for (HashMap.Entry<String, Vector<Gene>> entry : listOfTanks.entrySet()){
+            compileTankClass(String.format("%s%s.java", dstDir, entry.getKey()), entry.getValue());
+            if (entry.getKey() != this.myRobot){
+                seznamProtivniku += String.format(",%s", entry.getKey());
+            }
+        }
 
         seznamProtivniku = seznamProtivniku.replaceAll("\\s", "");
 
