@@ -159,6 +159,9 @@ public class Population {
         // Run our specified battle and let it run till it's over
         engine.runBattle(battleSpec, true/* wait till the battle is over */);
 
+        BattleResults winner = Collections.max(Arrays.asList(battleListener.getResults()));
+        System.out.println(winner.getTeamLeaderName());
+
         double fitness = -1;
         for (BattleResults battleResult : battleListener.getResults()) {
             if (battleResult.getTeamLeaderName().equals("sample.TankDst")) {
